@@ -13,3 +13,5 @@ You can `git clone` this script on your Linux machine or download it via GitHub.
 3. Wait for the script to load a list of your recordings. Then select the recording index you want to download.
 4. Enter a name for the folder of the selected meeting.
 5. Perform step 1 again until you've downloaded all the recordings.
+
+You can also watch the [tutorial video on YouTube](https://www.youtube.com/watch?v=Yh7f_7ud24Y).
