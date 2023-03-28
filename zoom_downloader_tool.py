@@ -73,7 +73,7 @@
                 end_date = from_date
                 time.sleep(delay)  # Add a delay between requests to avoid exceeding the rate limit
          
-            print("-----------------------FETCH COMPLETE----------------------------")
+            print("FETCH COMPLETE!")
             return recordings[:page_size]
 
         def main() -> None:
@@ -82,6 +82,7 @@
             recordings = get_recordings()
 
             while True:
+                print("----------------------SELECT A RECORDING-------------------------")
                 for idx, rec in enumerate(recordings, 1):
                     print(f"{idx}. {rec['topic']} ({rec['start_time']})")
 
