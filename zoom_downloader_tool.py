@@ -75,47 +75,55 @@
          
             print("-----------------------FETCH COMPLETE----------------------------")
             return recordings[:page_size]
-         
+
         def main() -> None:
             print("Welcome to Zoom Downloader Tool")
             print("By Dominick Lee")
             recordings = get_recordings()
-         
-            for idx, rec in enumerate(recordings, 1):
-                print(f"{idx}. {rec['topic']} ({rec['start_time']})")
-         
-            print("-----------------------------------------------------------------")
-            meeting_idx = int(input("Enter the meeting index to download: ")) - 1
-            if 0 <= meeting_idx < len(recordings):
-                meeting = recordings[meeting_idx]
-                folder_name = input("Enter the folder name for this meeting: ")
-                home_dir = str(pathlib.Path.home())
-                folder_path = os.path.join(home_dir, "Videos/ZoomRecords", folder_name)
-         
-                if not os.path.exists(folder_path):
-                    os.makedirs(folder_path)
-         
-                files = meeting.get("recording_files", [])
-                download_list = []
-         
-                for f in files:
-                    if f["file_type"] in ["MP4", "M4A", "CHAT"]:
-                        download_url = f["download_url"]
-                        file_ext = f["file_type"].lower()
-                        if file_ext == "chat":
-                            file_ext = "txt"
-                        recording_type = f["recording_type"]
-                        file_naming = "GMT" + f["recording_start"].replace(":", "") + "_" + recording_type
-                 
-                        file_name = f"{file_naming}.{file_ext}"
-                        file_path = os.path.join(folder_path, file_name)
-                        file_size = int(f["file_size"])
-                        download_list.append((download_url, file_path, JWT_TOKEN, file_size))
-         
-                download_files(download_list)
-                print("All files downloaded.")
-            else:
-                print("Invalid index. Exiting.")
+
+            while True:
+                for idx, rec in enumerate(recordings, 1):
+                    print(f"{idx}. {rec['topic']} ({rec['start_time']})")
+
+                print("-----------------------------------------------------------------")
+                print("Enter 'q' to quit.")
+                meeting_idx = input("Enter the meeting index to download or 'q' to quit: ")
+
+                if meeting_idx.lower() == 'q':
+                    break
+
+                meeting_idx = int(meeting_idx) - 1
+
+                if 0 <= meeting_idx < len(recordings):
+                    meeting = recordings[meeting_idx]
+                    folder_name = input("Enter the folder name for this meeting: ")
+                    home_dir = str(pathlib.Path.home())
+                    folder_path = os.path.join(home_dir, "Videos/ZoomRecords", folder_name)
+
+                    if not os.path.exists(folder_path):
+                        os.makedirs(folder_path)
+
+                    files = meeting.get("recording_files", [])
+                    download_list = []
+
+                    for f in files:
+                        if f["file_type"] in ["MP4", "M4A", "CHAT"]:
+                            download_url = f["download_url"]
+                            file_ext = f["file_type"].lower()
+                            if file_ext == "chat":
+                                file_ext = "txt"
+                            recording_type = f["recording_type"]
+                            file_naming = "GMT" + f["recording_start"].replace(":", "") + "_" + recording_type
+                     
+                            file_name = f"{file_naming}.{file_ext}"
+                            file_path = os.path.join(folder_path, file_name)
+                            file_size = int(f["file_size"])
+                            download_list.append((download_url, file_path, JWT_TOKEN, file_size))
+                    
+                    download_files(download_list)
+                    print("All files downloaded.")
+                else:
+                    print("Invalid index. Exiting.")
          
         if __name__ == "__main__":
             main()
