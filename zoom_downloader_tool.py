@@ -86,8 +86,8 @@
                     print(f"{idx}. {rec['topic']} ({rec['start_time']})")
 
                 print("-----------------------------------------------------------------")
-                print("Enter 'q' to quit.")
-                meeting_idx = input("Enter the meeting index to download or 'q' to quit: ")
+                print("Enter 'q' to quit or")
+                meeting_idx = input("Enter the meeting index to download: ")
 
                 if meeting_idx.lower() == 'q':
                     break
